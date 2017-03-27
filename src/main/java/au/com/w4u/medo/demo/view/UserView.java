@@ -24,10 +24,8 @@ import javax.faces.context.FacesContext;
 public class UserView implements Serializable {
 
     // Private Constants
-    private String name;
-    private String phone;
     private List<User> users;
-    private User userOne;
+    private User user;
     private Boolean isShow = false; 
     
     @ManagedProperty(value = "#{userService}")
@@ -44,8 +42,8 @@ public class UserView implements Serializable {
     
     public void addUser(){
         User user = new User();
-        user.setUsername(name);
-        user.setPassword(phone);
+        user.setUsername("test");
+        user.setPassword("123456");
         userService.create(user);
         setup();//刷新
         
@@ -54,13 +52,13 @@ public class UserView implements Serializable {
     public void findUser(){
         Integer userId = Integer.parseInt(FacesContext.getCurrentInstance().
                 getExternalContext().getRequestParameterMap().get("userId"));
-        userOne = userService.findOne(userId);
+        user = userService.findOne(userId);
         isShow = true;
         
     }
     
     public void updateUser(){
-        userService.create(userOne);
+        userService.create(user);
         isShow = false;
         setup();//刷新
     }
@@ -81,22 +79,6 @@ public class UserView implements Serializable {
 //        userService.delete(user);
 //    }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public List<User> getUsers() {
         return users;
     }
@@ -113,13 +95,14 @@ public class UserView implements Serializable {
         return userService;
     }
 
-    public User getUserOne() {
-        return userOne;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserOne(User userOne) {
-        this.userOne = userOne;
+    public void setUser(User user) {
+        this.user = user;
     }
+
 
     public Boolean getIsShow() {
         return isShow;

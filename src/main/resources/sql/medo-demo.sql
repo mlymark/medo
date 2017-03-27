@@ -34,7 +34,9 @@ CREATE TABLE `roles` (
 -- ----------------------------  
 INSERT INTO `roles` VALUES ('1', 'ROLE_ADMIN', '管理员角色');  
 INSERT INTO `roles` VALUES ('2', 'ROLE_USER', '用户角色');  
-INSERT INTO `roles` VALUES ('3', 'ROLE_TEST', '测试角色');  
+INSERT INTO `roles` VALUES ('3', 'ROLE_TEST', '测试角色');
+INSERT INTO `roles` VALUES ('4', 'ROLE_TEST', '司机角色');
+INSERT INTO `roles` VALUES ('5', 'ROLE_TEST', '装配工人角色');    
     
 -- ----------------------------  
 -- Table structure for user_role  
@@ -73,9 +75,12 @@ CREATE TABLE `resc` (
 -- ----------------------------  
 -- Records of resc  
 -- ----------------------------  
-INSERT INTO `resc` VALUES ('1', '', 'URL', '/adminPage.jsp', '管理员页面');  
-INSERT INTO `resc` VALUES ('2', '', 'URL', '/index.jsp', '');  
-INSERT INTO `resc` VALUES ('3', null, 'URL', '/test.jsp', '测试页面');  
+INSERT INTO `resc` VALUES ('1', '', 'URL', '/views/adminpage.xhtml', '管理员页面');  
+INSERT INTO `resc` VALUES ('2', '', 'URL', '/views/index.xhtml', '测试页面');  
+INSERT INTO `resc` VALUES ('3', null, 'URL', '/views/test.xhtml', '测试页面'); 
+INSERT INTO `resc` VALUES ('4', null, 'URL', '/views/userpage.xhtml', '用户页面'); 
+INSERT INTO `resc` VALUES ('5', null, 'URL', '/api/**', 'restful api接口'); 
+ 
   
 -- ----------------------------  
 -- Table structure for resc_role  
@@ -97,6 +102,8 @@ INSERT INTO `resc_role` VALUES (1, 1);
 INSERT INTO `resc_role` VALUES (2, 1);  
 INSERT INTO `resc_role` VALUES (2, 2);  
 INSERT INTO `resc_role` VALUES (3, 3);  
+INSERT INTO `resc_role` VALUES (4, 2); 
+INSERT INTO `resc_role` VALUES (5, 1);
 
 -- ----------------------------  
 -- Table structure for persistent_logins  

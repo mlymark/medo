@@ -10,16 +10,10 @@
                         http://www.springframework.org/schema/security  
                         http://www.springframework.org/schema/security/spring-security.xsd">  
       
-    <csrf disabled="true" />
     <http auto-config="false" entry-point-ref="loginUrlAuthenticationEntryPoint">  
-        <intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <intercept-url pattern="/jsonTemplate.jsp*" access="ROLE_USER"/>
-        <intercept-url pattern="/api/**" access="ROLE_USER"/>
-        <!-- <form-login login-page="/login.jsp" default-target-url="/index.jsp"   
-            authentication-failure-url="/login.jsp?error=true" /> -->  
-        <logout invalidate-session="true" logout-success-url="/login.jsp"  logout-url="/j_spring_security_logout" /> 
-        
-        
+        <csrf disabled="true"/>
+        <intercept-url pattern="/views/login.xhtml*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <logout invalidate-session="true" logout-success-url="/views/login.xhtml"  logout-url="/j_spring_security_logout" /> 
         <custom-filter ref="myUsernamePasswordAuthenticationFilter"  position="FORM_LOGIN_FILTER" />  
         <!--替换默认REMEMBER_ME_FILTER-->   
         <custom-filter ref="rememberMeFilter" position="REMEMBER_ME_FILTER"/>  
@@ -28,7 +22,7 @@
     </http>  
     <beans:bean id="loginUrlAuthenticationEntryPoint"   
         class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-        <beans:constructor-arg value="/login.jsp"/>  
+        <beans:constructor-arg value="/views/login.xhtml"/>  
     </beans:bean>   
       
     <beans:bean id="builder" class="au.com.w4u.medo.demo.security.JdbcRequestMapBulider">
@@ -55,13 +49,12 @@
   
     <beans:bean id="loginLogAuthenticationSuccessHandler"  
         class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler"> 
-        <beans:property name="targetUrlParameter" value="/index.jsp" />  
-        <beans:property name="defaultTargetUrl" value="/index.jsp" />
+        <beans:property name="targetUrlParameter" value="/views/userpage.xhtml" />  
     </beans:bean>  
   
     <beans:bean id="simpleUrlAuthenticationFailureHandler"  
         class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">  
-        <beans:property name="defaultFailureUrl" value="/login.jsp" />  
+        <beans:property name="defaultFailureUrl" value="/views/login.xhtml?error=true" />  
     </beans:bean>  
   
   

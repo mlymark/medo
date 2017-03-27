@@ -53,11 +53,12 @@
     </h:head>
     <h:body>
         <h:form>
+            <a href="${request.contextPath}/j_spring_security_logout">退出登陆</a>
             <div class="content">
                 <div class="add_title">
                     <h2>添加用户信息：</h2>
-                    name:<h:inputText id="name" value="#{userView.name}"/>
-                    phone:<h:inputText id="phone" value="#{userView.phone}"/>
+                    name:<h:inputText id="name" value="#{userView.user.username}"/>
+                    description:<h:inputText id="phone" value="#{userView.user.toString}"/>
                     <h:commandLink id="adduser" actionListener="#{userView.addUser()}">添加用户</h:commandLink>
                 </div>
 
@@ -70,11 +71,11 @@
                             </p:column>
 
                             <p:column headerText="name">
-                                <h:outputText value="#{user.name}" />
+                                <h:outputText value="#{user.username}" />
                             </p:column>
 
-                            <p:column headerText="phone">
-                                <h:outputText value="#{user.phone}" />
+                            <p:column headerText="password">
+                                <h:outputText value="#{user.password}" />
                             </p:column>
                             <p:column headerText="update">
                                 <h:commandLink  actionListener="#{userView.findUser()}">
@@ -95,8 +96,8 @@
                 <h:panelGroup>
                     <ui:fragment rendered="#{userView.isShow}">
                         <div class="user_dialog">
-                            <p>name:<h:inputText  value="#{userView.userOne.name}"/></p>
-                            <p> phone:<h:inputText value="#{userView.userOne.phone}"/>  </p>
+                            <p>name:<h:inputText  value="#{userView.user.username}"/></p>
+                            <p> phone:<h:inputText value="#{userView.user.password}"/>  </p>
                             <div>
                                 <h:commandLink class="updateUser" actionListener="#{userView.updateUser()}"><span>更新信息</span></h:commandLink>
                                 <h:commandLink class="closeDid" actionListener="#{userView.closeDidlog()}"><span>关闭</span></h:commandLink>
