@@ -8,9 +8,9 @@ package au.com.w4u.medo.demo.dao.common;
 import com.google.common.base.Preconditions;
 import java.io.Serializable;
 import java.util.List;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -22,53 +22,46 @@ public class GenericDaoImpl<T extends Serializable> implements IOperations<T> {
     
     private Class<T> clazz ;
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-    
     protected final void setClazz(final Class<T> clazzToSet) {
         this.clazz = Preconditions.checkNotNull(clazzToSet);
-    }
-  
-    protected final Session getCurrentSession() {
-        return sessionFactory.getCurrentSession();
     }
     
     @Override
     public final T findOne(final Integer id) {
-        return (T)getCurrentSession().get(clazz, id);
+        return (T)entityManager.find(clazz, id);
     }
     
     @Override
     public final T get(final Integer id) {
-        return (T)getCurrentSession().load(clazz, id);
+        return (T)entityManager.find(clazz, id);
     }
 
     @Override
     public final List<T> findAll() {
-        return getCurrentSession().createQuery("from " + clazz.getName()).list();
+        Query query = entityManager.createQuery("from " + clazz.getName());
+        return query.getResultList();
     }
 
     @Override
     public final void create(final T entity) {
         Preconditions.checkNotNull(entity);
-        getCurrentSession().saveOrUpdate(entity);
+        entityManager.persist(entity);
     }
 
     @Override
     public final T update(final T entity) {
         Preconditions.checkNotNull(entity);
-        getCurrentSession().update(entity);
+        entityManager.merge(entity);
         return entity;
     }
 
     @Override
     public final void delete(final T entity) {
         Preconditions.checkNotNull(entity);
-        getCurrentSession().delete(entity);
+        entityManager.remove(getEntityManager().merge(entity));
     }
 
     @Override
@@ -78,10 +71,13 @@ public class GenericDaoImpl<T extends Serializable> implements IOperations<T> {
         delete(entity);
     }
 
-    @Override
-    public final Integer save(T entity) {
-        Preconditions.checkNotNull(entity);
-        return (Integer) getCurrentSession().save(entity);
+    public EntityManager getEntityManager() {
+        return entityManager;
     }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+    
     
 }

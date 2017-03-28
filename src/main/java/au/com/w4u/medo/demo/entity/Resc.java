@@ -5,6 +5,7 @@
  */
 package au.com.w4u.medo.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -47,10 +48,11 @@ public class Resc implements Serializable{
     @Column(name="descn")
     private String descn;
     
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "resc_role",
     joinColumns = @JoinColumn(name = "resc_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonBackReference
     private Set<Role> roles;
 
     public Integer getId() {

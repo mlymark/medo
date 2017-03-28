@@ -8,7 +8,9 @@ package au.com.w4u.medo.demo.dao.impl;
 import au.com.w4u.medo.demo.dao.UserDao;
 import au.com.w4u.medo.demo.dao.common.GenericDaoImpl;
 import au.com.w4u.medo.demo.entity.User;
-import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -25,12 +27,9 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao{
 
     @Override
     public User findUserByName(String name) {
-        List<User> users = (List<User>)getCurrentSession().createQuery("from User u where u.username='"+name+"'").list();
-        if(users.size() > 0){
-            return users.get(0);
-        }else {
-            return null;
-        }
+        Query query = this.getEntityManager().createQuery("select user from User user where user.username = :username");
+        query.setParameter("username", name);
+        return (User) query.getSingleResult();
     }
-    
+   
 }

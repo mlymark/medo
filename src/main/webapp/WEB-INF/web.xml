@@ -83,6 +83,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>userpage.xhtml</welcome-file>
+        <welcome-file>views/userpage.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>

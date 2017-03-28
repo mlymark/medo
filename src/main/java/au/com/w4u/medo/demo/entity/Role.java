@@ -5,6 +5,7 @@
  */
 package au.com.w4u.medo.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -28,6 +29,11 @@ public class Role implements Serializable{
     public Role() {
     }
     
+    public Role(String name , String descn) {
+        this.name = name;
+        this.descn = descn;
+    }
+    
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="id")
@@ -39,10 +45,12 @@ public class Role implements Serializable{
     @Column(name="descn")
     private String descn;
     
-    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roles",cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<User> users;
     
-    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roles",cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Resc> rescs;
 
     public Integer getId() {

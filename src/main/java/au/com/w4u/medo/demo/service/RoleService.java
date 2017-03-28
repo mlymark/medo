@@ -13,5 +13,5 @@ import au.com.w4u.medo.demo.entity.Role;
  * @author dell
  */
 public interface RoleService  extends IOperations<Role>{
-    
+    Role findRoleByName(String name);
 }

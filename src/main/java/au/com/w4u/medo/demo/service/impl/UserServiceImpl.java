@@ -10,6 +10,7 @@ import au.com.w4u.medo.demo.dao.common.IOperations;
 import au.com.w4u.medo.demo.entity.User;
 import au.com.w4u.medo.demo.service.UserService;
 import au.com.w4u.medo.demo.service.common.GenericService;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
  * @author mly
  */
 @Service("userService")
+@Transactional
 public class UserServiceImpl extends GenericService<User> implements UserService{
 
     @Autowired

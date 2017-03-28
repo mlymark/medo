@@ -53,8 +53,4 @@ public abstract class GenericService <T extends Serializable> implements IOperat
         getDao().deleteById(entityId);
     }
     
-    @Override
-    public Integer save(final T entity) {
-        return getDao().save(entity);
-    }
 }

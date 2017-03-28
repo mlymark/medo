@@ -47,23 +47,22 @@ public class UserController {
     }
     
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<String> createEmployee(@RequestBody User user) {
-        System.out.println(user);
+    public ResponseEntity<String> createUser(@RequestBody User user) {
+        userService.create(user);
         return new ResponseEntity(HttpStatus.CREATED);
     }
     
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<User> updateEmployee(@PathVariable("id") int id, @RequestBody User user) 
+    public ResponseEntity<User> updateUser(@PathVariable("id") int id, @RequestBody User user) 
     {
-        System.out.println(id);
-        System.out.println(user);
+        userService.update(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
     
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<String> updateEmployee(@PathVariable("id") int id) 
+    public ResponseEntity<String> deleteUser(@PathVariable("id") int id) 
     {
-        System.out.println(id);
+        userService.deleteById(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

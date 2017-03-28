@@ -8,6 +8,7 @@ package au.com.w4u.medo.demo.dao.impl;
 import au.com.w4u.medo.demo.dao.RoleDao;
 import au.com.w4u.medo.demo.dao.common.GenericDaoImpl;
 import au.com.w4u.medo.demo.entity.Role;
+import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -20,5 +21,12 @@ public class RoleDaoImpl extends GenericDaoImpl<Role> implements RoleDao{
     public RoleDaoImpl() {
         super();
         setClazz(Role.class);
+    }
+
+    @Override
+    public Role findRoleByName(String name) {
+        Query query = getEntityManager().createQuery("select role from Role role where role.name = :rolename");
+        query.setParameter("rolename", name);
+        return (Role) query.getSingleResult();
     }
 }

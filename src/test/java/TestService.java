@@ -3,12 +3,14 @@ import au.com.w4u.medo.demo.entity.Role;
 import au.com.w4u.medo.demo.entity.User;
 import au.com.w4u.medo.demo.service.RoleService;
 import au.com.w4u.medo.demo.service.UserService;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -41,31 +43,31 @@ public class TestService {
     
 //    @Test
     public void testAddUser(){
+        Role role = roleService.findRoleByName("ROLE_USER");
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
         User entity = new User();
-        entity.setUsername("mao longyun4");
+        entity.setUsername("mlymark");
         entity.setPassword("7514470");
-        Integer id = userService.save(entity);
-        User user = userService.findOne(1);
+        entity.setStatus(1);
+        entity.setDescn("I am a user");
+        entity.setRoles(roles);
+        userService.create(entity);
+        
+        System.out.println("ID: "+entity.getId());
+        
     } 
     
-    @Test
-    public void testGetUser(){
-//        User user = userService.findOne(1);
-        User user = userService.findUserByName("admin");
-        Iterator<Role> i =user.getRoles().iterator();
-        while (i.hasNext()) {
-            Role next = i.next();
-            System.out.println(next.getName());
-        }
-        
+//    @Test
+    public void testDeleteUser(){
+        User user = userService.findUserByName("mlymark");
+        userService.delete(user);
     }
     
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    public void setRoleService(RoleService roleService) {
-        this.roleService = roleService;
+    @Test
+    public void testFindUsers(){
+        User user = userService.findUserByName("admin");
+        user.getRoles();
     }
     
 }

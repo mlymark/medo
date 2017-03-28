@@ -1,5 +1,6 @@
 package au.com.w4u.medo.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -45,10 +46,24 @@ public class User implements Serializable{
     @Column(name="descn")
     private String descn;
     
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    /**
+     * by mly
+     * CascadeType 这里不要乱用会导致很多问题，不懂最好看下文档
+     * CascadeType.MERGE 这个只是更新，需要保存的role必须是持久化的，不然报错
+     * CascadeType.PERSIST 这个和MERGE相反，需要保存的role是游离态的，如果是持久化对象的话报错
+     * CascadeType.REMOVE  级联删除role,但是此处删除user的话并不需要删除role
+     * FetchType.LAZY  使用懒加载，但是这里的话一个用户关联的Role也不会很多，所以就不懒加载了，
+     *                  如果用懒加载的话会出现懒加载的时候session已经关闭了的问题，会导致异常发生，
+     *                  这个问题可以用openSessioninView解决，但是openSessioninView又会带来许多问题，不建议使用
+     * FetchType.EAGER 不使用懒加载直接查出关联的list
+     * @JsonBackReference (Force lazy loading) 由于使用了FetchType.EAGER 如果直接返回将对象转换为json的话，会出现关联数据无限循环，用该标签可以解决这个问题
+     * https://github.com/FasterXML/jackson-datatype-hibernate/pull/58
+     */
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
     joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonBackReference
     private Set<Role> roles;
 
     @Override

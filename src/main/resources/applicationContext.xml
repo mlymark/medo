@@ -18,10 +18,7 @@
     
     <context:annotation-config />
 
-    <context:component-scan base-package="au.com.w4u.medo.demo" >
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
-    </context:component-scan>
+    <context:component-scan base-package="au.com.w4u.medo.demo" />
 
     <context:property-placeholder location="classpath:application.properties" />
     
@@ -31,39 +28,40 @@
             <property name="username" value="${jdbc.user}"></property>
             <property name="password" value="${jdbc.pass}"></property>
     </bean>
-
-    <bean id="sessionFactory" 
-        class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="packagesToScan">
-            <list>
-                <!-- 可以加多个包 -->
-                <value>au.com.w4u.medo.demo.entity</value>
-            </list>
-        </property>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
-                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
-                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
-                <!--  <prop key="hibernate.current_session_context_class">thread</prop> --> 
-            </props>
+    
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+    
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- instead of the persistence.xml file -->
+        <property name="packagesToScan" value="au.com.w4u.medo.demo.entity"/>
+        <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>   <!-- No PersistenceProvider specified in EntityManagerFactory configuration -->
+        <property name="jpaProperties">
+         <props>
+            <!-- 命名规则 My_NAME->MyName -->
+            <!-- <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop> -->
+            <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+            <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+            <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+            <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+         </props>
         </property>
     </bean>
-    
-    
-    <!-- 配置Hibernate事务管理器 -->
-    <bean id="transactionManager"
-        class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-      <property name="sessionFactory" ref="sessionFactory" />
-   </bean>
+
+    <bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="databasePlatform" value="${hibernate.dialect}"/>
+    </bean>
+
+    <bean id="jpaTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean> 
    
    <!-- 配置事务异常封装 -->
-   <bean id="persistenceExceptionTranslationPostProcessor" 
-       class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+    <bean id="persistenceExceptionTranslationPostProcessor" 
+        class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
    
    <!--  声明式容器事务管理 ,transaction-manager指定事务管理器为transactionManager -->
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+    <tx:advice id="txAdvice" transaction-manager="jpaTransactionManager">
         <tx:attributes>
             <tx:method name="add*" propagation="REQUIRED" />
             <tx:method name="save*" propagation="REQUIRED" />

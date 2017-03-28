@@ -13,4 +13,5 @@ import au.com.w4u.medo.demo.entity.Role;
  * @author mly
  */
 public interface RoleDao extends IOperations<Role> {
+    Role findRoleByName(String name);
 }

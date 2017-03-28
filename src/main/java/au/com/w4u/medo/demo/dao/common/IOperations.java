@@ -22,8 +22,6 @@ public interface  IOperations <T extends Serializable>{
     List<T> findAll();
 
     void create(final T entity);
-
-    Integer save(final T entity);
     
     T update(final T entity);
 

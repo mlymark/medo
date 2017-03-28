@@ -32,5 +32,10 @@ public class RoleServiceImpl extends GenericService<Role> implements RoleService
     protected IOperations<Role> getDao() {
         return this.roleDao;
     }
+
+    @Override
+    public Role findRoleByName(String name) {
+        return roleDao.findRoleByName(name);
+    }
     
 }

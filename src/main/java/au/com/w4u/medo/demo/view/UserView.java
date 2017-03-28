@@ -25,8 +25,9 @@ public class UserView implements Serializable {
 
     // Private Constants
     private List<User> users;
-    private User user;
+    private User user = new User();//新用户实体
     private Boolean isShow = false; 
+    private User userUp = new User();;//更新实体
     
     @ManagedProperty(value = "#{userService}")
     private UserService userService;
@@ -41,9 +42,9 @@ public class UserView implements Serializable {
     }
     
     public void addUser(){
-        User user = new User();
-        user.setUsername("test");
-        user.setPassword("123456");
+        
+        user.setStatus(1);
+        user.setDescn("不知");
         userService.create(user);
         setup();//刷新
         
@@ -52,13 +53,13 @@ public class UserView implements Serializable {
     public void findUser(){
         Integer userId = Integer.parseInt(FacesContext.getCurrentInstance().
                 getExternalContext().getRequestParameterMap().get("userId"));
-        user = userService.findOne(userId);
+        userUp = userService.findOne(userId);
         isShow = true;
         
     }
     
     public void updateUser(){
-        userService.create(user);
+        userService.update(userUp);
         isShow = false;
         setup();//刷新
     }
@@ -110,6 +111,14 @@ public class UserView implements Serializable {
 
     public void setIsShow(Boolean isShow) {
         this.isShow = isShow;
+    }
+
+    public User getUserUp() {
+        return userUp;
+    }
+
+    public void setUserUp(User userUp) {
+        this.userUp = userUp;
     }
 
     

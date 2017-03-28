@@ -15,28 +15,22 @@
                             http://www.springframework.org/schema/tx/spring-tx.xsd">
      <!--add beans-->
     <bean id="userDao" class="au.com.w4u.medo.demo.dao.impl.UserDaoImpl">
-          <property name="sessionFactory" ref="sessionFactory"></property>
     </bean>
     
     <bean id="userService" class="au.com.w4u.medo.demo.service.impl.UserServiceImpl">
-        <property name="userDao" ref="userDao"></property>
     </bean>
     
     <!--add beans-->
     <bean id="roleDao" class="au.com.w4u.medo.demo.dao.impl.RoleDaoImpl">
-          <property name="sessionFactory" ref="sessionFactory"></property>
     </bean>
     
     <bean id="roleService" class="au.com.w4u.medo.demo.service.impl.RoleServiceImpl">
-        <property name="roleDao" ref="roleDao"></property>
     </bean>
     
     <!--add beans-->
     <bean id="rescDao" class="au.com.w4u.medo.demo.dao.impl.RescDaoImpl">
-          <property name="sessionFactory" ref="sessionFactory"></property>
     </bean>
     
     <bean id="rescService" class="au.com.w4u.medo.demo.service.impl.RescServiceImpl">
-        <property name="rescDao" ref="rescDao"></property>
     </bean>
 </beans>

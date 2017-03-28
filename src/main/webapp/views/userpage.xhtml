@@ -58,7 +58,7 @@
                 <div class="add_title">
                     <h2>添加用户信息：</h2>
                     name:<h:inputText id="name" value="#{userView.user.username}"/>
-                    description:<h:inputText id="phone" value="#{userView.user.toString}"/>
+                    password:<h:inputText id="phone" value="#{userView.user.password}"/>
                     <h:commandLink id="adduser" actionListener="#{userView.addUser()}">添加用户</h:commandLink>
                 </div>
 
@@ -96,8 +96,8 @@
                 <h:panelGroup>
                     <ui:fragment rendered="#{userView.isShow}">
                         <div class="user_dialog">
-                            <p>name:<h:inputText  value="#{userView.user.username}"/></p>
-                            <p> phone:<h:inputText value="#{userView.user.password}"/>  </p>
+                            <p>name:<h:inputText  value="#{userView.userUp.username}"/></p>
+                            <p> phone:<h:inputText value="#{userView.userUp.password}"/>  </p>
                             <div>
                                 <h:commandLink class="updateUser" actionListener="#{userView.updateUser()}"><span>更新信息</span></h:commandLink>
                                 <h:commandLink class="closeDid" actionListener="#{userView.closeDidlog()}"><span>关闭</span></h:commandLink>
