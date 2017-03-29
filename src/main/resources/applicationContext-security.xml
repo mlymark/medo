@@ -8,12 +8,19 @@
                         http://www.springframework.org/schema/tx  
                         http://www.springframework.org/schema/tx/spring-tx.xsd  
                         http://www.springframework.org/schema/security  
-                        http://www.springframework.org/schema/security/spring-security.xsd">  
-      
-    <http auto-config="false" entry-point-ref="loginUrlAuthenticationEntryPoint">  
+                        http://www.springframework.org/schema/security/spring-security.xsd"> 
+     
+    <http security="none" pattern="/views/error/**" />
+    <http auto-config="false" entry-point-ref="loginUrlAuthenticationEntryPoint"> 
+        <!--该参数3.x版本的时候默认就为true，但是升级到4.x后该参数默认false了--> 
         <csrf disabled="true"/>
+        <access-denied-handler error-page="/views/error/403.html" />
         <intercept-url pattern="/views/login.xhtml*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <logout invalidate-session="true" logout-success-url="/views/login.xhtml"  logout-url="/j_spring_security_logout" /> 
+        <logout invalidate-session="true" delete-cookies = "JSESSIONID"  logout-success-url="/views/login.xhtml"  logout-url="/j_spring_security_logout" /> 
+        <!--限制同时只能一个相同用户登录-->
+        <session-management invalid-session-url="/views/login.xhtml" session-fixation-protection="migrateSession" >
+            <concurrency-control max-sessions = "1" error-if-maximum-exceeded = "true" />
+        </session-management>
         <custom-filter ref="myUsernamePasswordAuthenticationFilter"  position="FORM_LOGIN_FILTER" />  
         <!--替换默认REMEMBER_ME_FILTER-->   
         <custom-filter ref="rememberMeFilter" position="REMEMBER_ME_FILTER"/>  
@@ -105,6 +112,8 @@
         <beans:constructor-arg ref="tokenRepository" />
          <!--指定 request 中包含的用户是否选择了记住我的参数名-->   
         <beans:property name="parameter" value="rememberMe" />  
+        <!--token 有效时间 此处设置为一天-->
+        <beans:property name="tokenValiditySeconds" value="86400"/>
     </beans:bean>  
     
     <beans:bean id="tokenRepository" 

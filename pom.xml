@@ -12,11 +12,78 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-<!--        <tomcat.home>C:\apache-tomcat-8.5.9</tomcat.home>-->
         <tomcat.home>D:\apache-tomcat-8.0.20</tomcat.home>
         <spring.mvc.version>4.3.6.RELEASE</spring.mvc.version>
         <spring.security.version>4.2.2.RELEASE</spring.security.version>
+        <hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
+        <hibernate.show_sql>true</hibernate.show_sql>
+        <hibernate.format_sql>false</hibernate.format_sql>
+        <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+        <hibernate.generate_statistics>true</hibernate.generate_statistics>
     </properties>
+    
+    <profiles>
+        <profile>
+            <id>mly</id>
+            <properties>
+                <tomcat.home>D:\apache-tomcat-8.0.20</tomcat.home>
+                <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+                <jdbc.url>jdbc:mysql://station2/medo-demo?createDatabaseIfNotExist=true</jdbc.url>
+                <jdbc.user>mly</jdbc.user>
+                <jdbc.pass>7514470</jdbc.pass>
+                <hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
+                <hibernate.show_sql>true</hibernate.show_sql>
+                <hibernate.format_sql>false</hibernate.format_sql>
+                <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+                <hibernate.generate_statistics>true</hibernate.generate_statistics>
+            </properties>
+        </profile>
+        <profile>
+            <id>twy</id>
+            <properties>
+                <tomcat.home>D:\apache-tomcat-8.0.20</tomcat.home>
+                <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+                <jdbc.url>jdbc:mysql://station2/medo-demo?createDatabaseIfNotExist=true</jdbc.url>
+                <jdbc.user>mly</jdbc.user>
+                <jdbc.pass>7514470</jdbc.pass>
+                <hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
+                <hibernate.show_sql>true</hibernate.show_sql>
+                <hibernate.format_sql>false</hibernate.format_sql>
+                <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+                <hibernate.generate_statistics>true</hibernate.generate_statistics>
+            </properties>
+        </profile>
+        <profile>
+            <id>lihui</id>
+            <properties>
+                <tomcat.home>D:\apache-tomcat-8.0.20</tomcat.home>
+                <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+                <jdbc.url>jdbc:mysql://station2/medo-demo?createDatabaseIfNotExist=true</jdbc.url>
+                <jdbc.user>mly</jdbc.user>
+                <jdbc.pass>7514470</jdbc.pass>
+                <hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
+                <hibernate.show_sql>true</hibernate.show_sql>
+                <hibernate.format_sql>false</hibernate.format_sql>
+                <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+                <hibernate.generate_statistics>true</hibernate.generate_statistics>
+            </properties>
+        </profile>
+        <profile>
+            <id>fxb</id>
+            <properties>
+                <tomcat.home>D:\apache-tomcat-8.0.20</tomcat.home>
+                <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+                <jdbc.url>jdbc:mysql://station2/medo-demo?createDatabaseIfNotExist=true</jdbc.url>
+                <jdbc.user>mly</jdbc.user>
+                <jdbc.pass>7514470</jdbc.pass>
+                <hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
+                <hibernate.show_sql>true</hibernate.show_sql>
+                <hibernate.format_sql>false</hibernate.format_sql>
+                <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+                <hibernate.generate_statistics>true</hibernate.generate_statistics>
+            </properties>
+        </profile>
+    </profiles>   
     
     <repositories>
 
