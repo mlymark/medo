@@ -63,6 +63,7 @@ public class MyFilterInvocationSecurityMetadataSource  implements
         Set<ConfigAttribute> allAttributes = new HashSet<>();  
         for (Map.Entry<RequestMatcher, Collection<ConfigAttribute>> entry : requestMap  
                 .entrySet()) {  
+            System.out.println(entry.getValue());
             allAttributes.addAll(entry.getValue());  
         }  
         System.out.println("总共有这些权限："+allAttributes.toString());  

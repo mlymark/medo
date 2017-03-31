@@ -2,6 +2,7 @@ package au.com.w4u.medo.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -37,14 +39,27 @@ public class User implements Serializable{
     @Column(name="username",length=32)
     private String username;
     
+    @Column(name="type")
+    private Integer type;
+    
     @Column(name="password")
     private String password;
+    
+    @Column(name="address")
+    private String address;
+    
+    @Column(name="email")
+    private String email;
     
     @Column(name="status")
     private Integer status;
     
     @Column(name="descn")
     private String descn;
+    
+    @Column(name="create_date")
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date createDate;
     
     /**
      * by mly
@@ -117,6 +132,30 @@ public class User implements Serializable{
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
     
 }

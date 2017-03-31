@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -36,14 +37,8 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
                             + request.getMethod());  
         }  
         String username = this.obtainUsername(request);  
-        String password = this.obtainPassword(request);  
-        // 加密密码(根据“密码{用户名})进行加密  
-        // String sh1Password = password + "{" + username + "}";  
-        // PasswordEncoder passwordEncoder = new  
-        // StandardPasswordEncoderForSha1();  
-        // String result = passwordEncoder.encode(sh1Password);  
-        // UserInfo userDetails = (UserInfo)  
-        // userDetailsService.loadUserByUsername(username);  
+        String password = this.obtainPassword(request);
+        
         if (username == null) {  
             username = "";  
         }  
@@ -75,7 +70,6 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
     protected String obtainPassword(HttpServletRequest request) {  
         // TODO Auto-generated method stub  
         Object obj = request.getParameter(PASSWORD);  
-        System.out.println(obj.toString());
         return null == obj ? "" : obj.toString();  
     }  
   
@@ -88,7 +82,6 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
     protected String obtainUsername(HttpServletRequest request) {  
         // TODO Auto-generated method stub  
         Object obj = request.getParameter(USERNAME); 
-        System.out.println(obj.toString().trim().toLowerCase());
         return null == obj ? "" : obj.toString().trim().toLowerCase();  
     }  
   

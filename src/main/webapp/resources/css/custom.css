@@ -36,3 +36,15 @@ div.wysiwyg ul.panel li a:hover, div.wysiwyg ul.panel li a.active {
 	opacity: 1.00; 
 	filter:alpha(opacity=100); 
 }
+
+.logo {
+    position:relative;
+    height:100%;
+    background:#fff url('../image/loginbg.png') left top repeat-x;
+    font-family:Tahoma, Arial, sans-serif;
+}
+.logout{
+    position: relative;
+    float: right;
+    margin-top: 60px;
+}

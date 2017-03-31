@@ -13,7 +13,7 @@ import java.util.List;
  * @author mly
  * @param <T>
  */
-public interface  IOperations <T extends Serializable>{
+public interface  IOperations <T extends Serializable> extends Serializable{
 
     T findOne(final Integer id);
     

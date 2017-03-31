@@ -1,6 +1,7 @@
 
 import au.com.w4u.medo.demo.entity.Role;
 import au.com.w4u.medo.demo.entity.User;
+import au.com.w4u.medo.demo.security.JdbcRequestMapBulider;
 import au.com.w4u.medo.demo.service.RoleService;
 import au.com.w4u.medo.demo.service.UserService;
 import java.util.HashSet;
@@ -11,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -68,7 +70,6 @@ public class TestService {
     @Test
     public void testFindUsers(){
         User user = userService.findUserByName("admin");
-        user.getRoles();
     }
     
 }

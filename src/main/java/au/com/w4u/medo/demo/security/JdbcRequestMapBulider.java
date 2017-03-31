@@ -52,6 +52,7 @@ public class JdbcRequestMapBulider
             List<ConfigAttribute> list = new ArrayList<ConfigAttribute>();  
             list.add(new SecurityConfig(resource.getRole()));  
             requestMap.put(requestMatcher, list);  
+            System.out.println(resource.getRole()+"  :  "+resource.getUrl());
         }  
         return requestMap;  
     }  

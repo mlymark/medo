@@ -11,6 +11,7 @@
                         http://www.springframework.org/schema/security/spring-security.xsd"> 
      
     <http security="none" pattern="/views/error/**" />
+    <http security="none" pattern="/views/signup.xhtml" />
     <http auto-config="false" entry-point-ref="loginUrlAuthenticationEntryPoint"> 
         <!--该参数3.x版本的时候默认就为true，但是升级到4.x后该参数默认false了--> 
         <csrf disabled="true"/>
@@ -56,7 +57,7 @@
   
     <beans:bean id="loginLogAuthenticationSuccessHandler"  
         class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler"> 
-        <beans:property name="targetUrlParameter" value="/views/userpage.xhtml" />  
+        <beans:property name="targetUrlParameter" value="/views/content/home.xhtml" />  
     </beans:bean>  
   
     <beans:bean id="simpleUrlAuthenticationFailureHandler"  
@@ -77,11 +78,15 @@
     </beans:bean>  
   
     <!-- acl领域模型 -->  
-    <beans:bean id="accessDecisionManager" class="au.com.w4u.medo.demo.security.MyAccessDecisionManager" >  
-    </beans:bean>  
+    <beans:bean id="accessDecisionManager" class="au.com.w4u.medo.demo.security.MyAccessDecisionManager" ></beans:bean>  
     <!-- -->  
     <authentication-manager alias="authenticationManager">  
-        <authentication-provider user-service-ref="userDetailsService"></authentication-provider>  
+        <authentication-provider user-service-ref="userDetailsService">
+            <!--加密算法通过md5盐值加密password{username}，base64编码; 也可以自己定义加密规则--> 
+            <password-encoder hash="md5" base64="true">
+               <salt-source user-property="username"/>
+            </password-encoder>
+        </authentication-provider>  
         <!-- 记住密码 -->  
         <authentication-provider ref="rememberMeAuthenticationProvider"></authentication-provider>  
     </authentication-manager>  
@@ -95,7 +100,7 @@
                                     where user.id=user_role.user_id and   
                                     user_role.role_id=roles.id and user.username=?" />  
         <beans:property name="dataSource" ref="dataSource" />  
-    </beans:bean>  
+    </beans:bean>
     <!-- Remember-Me 对应的 Filter -->  
     <beans:bean id="rememberMeFilter"  
         class="org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">  
