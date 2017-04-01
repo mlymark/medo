@@ -33,10 +33,8 @@
         <beans:constructor-arg value="/views/login.xhtml"/>  
     </beans:bean>   
       
-    <beans:bean id="builder" class="au.com.w4u.medo.demo.security.JdbcRequestMapBulider">
-        <beans:property name="dataSource" ref="dataSource" />  
-        <beans:property name="resourceQuery"  
-            value="select re.res_string,r.name from roles r,resc re,resc_role rr where r.id=rr.role_id and re.id=rr.resc_id" />
+    <beans:bean id="builder" class="au.com.w4u.medo.demo.security.RequestMapBulider">
+        <beans:property name="rescService" ref="rescService" />  
     </beans:bean> 
     
     <beans:bean id="securityMetadataSource"  
@@ -59,7 +57,7 @@
         class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler"> 
         <beans:property name="targetUrlParameter" value="/views/content/home.xhtml" />  
     </beans:bean>  
-  
+    
     <beans:bean id="simpleUrlAuthenticationFailureHandler"  
         class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">  
         <beans:property name="defaultFailureUrl" value="/views/login.xhtml?error=true" />  
@@ -92,14 +90,8 @@
     </authentication-manager>  
     <!-- 配置userDetailsService -->  
     <beans:bean id="userDetailsService"  
-        class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">  
-        <beans:property name="usersByUsernameQuery"  
-            value="select username,password,status as enabled from user where username = ?" />  
-        <beans:property name="authoritiesByUsernameQuery"  
-            value="select user.username,roles.name from user,roles,user_role   
-                                    where user.id=user_role.user_id and   
-                                    user_role.role_id=roles.id and user.username=?" />  
-        <beans:property name="dataSource" ref="dataSource" />  
+        class="au.com.w4u.medo.demo.security.MyUserDetailsService">  
+         <beans:property name="userService" ref="userService" /> 
     </beans:bean>
     <!-- Remember-Me 对应的 Filter -->  
     <beans:bean id="rememberMeFilter"  

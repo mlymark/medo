@@ -31,7 +31,7 @@ public class MyFilterInvocationSecurityMetadataSource  implements
     private Map<RequestMatcher, Collection<ConfigAttribute>> requestMap;  
       
     //查找数据库权限和资源关系  
-    private JdbcRequestMapBulider builder;  
+    private RequestMapBulider builder;  
     
     
     public void refreshResuorceMap() {  
@@ -83,13 +83,12 @@ public class MyFilterInvocationSecurityMetadataSource  implements
         this.requestMap = requestMap;
     }
 
-    public JdbcRequestMapBulider getBuilder() {
+    public RequestMapBulider getBuilder() {
         return builder;
     }
 
-    public void setBuilder(JdbcRequestMapBulider builder) {
+    public void setBuilder(RequestMapBulider builder) {
         this.builder = builder;
     }
-
     
 }

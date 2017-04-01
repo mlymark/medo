@@ -5,10 +5,14 @@
  */
 package au.com.w4u.medo.demo.view;
 
+import au.com.w4u.medo.demo.constants.CommonConstants;
 import au.com.w4u.medo.demo.custom.exception.NullRoleException;
+import au.com.w4u.medo.demo.entity.Role;
 import au.com.w4u.medo.demo.entity.User;
+import au.com.w4u.medo.demo.service.RoleService;
 import au.com.w4u.medo.demo.service.UserService;
 import au.com.w4u.medo.demo.utils.JsfUtil;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import javax.annotation.PostConstruct;
@@ -30,6 +34,9 @@ public class SignUpView implements Serializable {
     @ManagedProperty(value = "#{userService}")
     private UserService userService;
     
+    @ManagedProperty(value = "#{roleService}")
+    private RoleService roleService;
+    
     private String username;
     
     private String email;
@@ -50,7 +57,7 @@ public class SignUpView implements Serializable {
         
     }
     
-    public void signUp() throws NullRoleException {
+    public void signUp() throws NullRoleException, IOException {
         if(!checkInput()){
             return;
         }
@@ -63,12 +70,17 @@ public class SignUpView implements Serializable {
         System.out.println("Password:"+password);
         user.setPassword(password);
         user.setType(type);
+        user.setEmail(email);
         user.setAddress(address);
         user.setDescn(descn);
         user.setStatus(0);
         user.setCreateDate(new Date());
+        Role role = roleService.findRoleByName(CommonConstants.ROLE_USER);
+        if(role != null){
+            user.setRole(role);
+        }
         userService.create(user);
-        JsfUtil.redirect("/views/home.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("medo-demo/views/content/home.xhtml");
     }
     
     public boolean checkInput(){
@@ -152,6 +164,10 @@ public class SignUpView implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
     }
     
 }

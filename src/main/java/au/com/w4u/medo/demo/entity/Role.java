@@ -16,6 +16,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -45,7 +47,7 @@ public class Role implements Serializable{
     @Column(name="descn")
     private String descn;
     
-    @ManyToMany(mappedBy = "roles",cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="role",cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<User> users;
     

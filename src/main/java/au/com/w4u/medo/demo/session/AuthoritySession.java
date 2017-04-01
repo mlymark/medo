@@ -26,6 +26,8 @@ public class AuthoritySession implements Serializable {
     private UserDetails userDetails;
     
     private String currentRole;
+    
+    private String userName;
 
     /**
      * *
@@ -35,11 +37,13 @@ public class AuthoritySession implements Serializable {
     public void setup() {
         currentRole = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if("anonymousUser".equals(authentication.getPrincipal())){
+        if( authentication== null || "anonymousUser".equals(authentication.getPrincipal())){
             return;
         }
         userDetails = (UserDetails) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
+        userName = userDetails.getUsername();
+        
         Collection<? extends GrantedAuthority>  auths = userDetails.getAuthorities();
         
         //这里就只考虑一个用户只有一种角色的情况了
@@ -63,6 +67,14 @@ public class AuthoritySession implements Serializable {
 
     public void setCurrentRole(String currentRole) {
         this.currentRole = currentRole;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
     
 

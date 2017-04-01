@@ -12,8 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -74,16 +73,13 @@ public class User implements Serializable{
      * @JsonBackReference (Force lazy loading) 由于使用了FetchType.EAGER 如果直接返回将对象转换为json的话，会出现关联数据无限循环，用该标签可以解决这个问题
      * https://github.com/FasterXML/jackson-datatype-hibernate/pull/58
      */
-    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role",
-    joinColumns = @JoinColumn(name = "user_id"),
-    inverseJoinColumns = @JoinColumn(name = "role_id"))
-    @JsonBackReference
-    private Set<Role> roles;
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinColumn(name="role_id")
+    private Role role;
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", name=" + username + ", password=" + password+", status=" + status+  ", descn=" + descn+", roles=" + roles+"]";
+        return "User [id=" + id + ", name=" + username + ", password=" + password+", status=" + status+  ", descn=" + descn+", role=" + role.getName()+"]";
     }
 
     public Integer getId() {
@@ -126,12 +122,12 @@ public class User implements Serializable{
         this.descn = descn;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Date getCreateDate() {
@@ -156,6 +152,14 @@ public class User implements Serializable{
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
     
 }

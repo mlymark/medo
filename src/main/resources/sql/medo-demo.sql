@@ -84,32 +84,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`)  
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;  
   
-
-    
--- ----------------------------  
--- Table structure for user_role  
--- ----------------------------  
- 
-CREATE TABLE `user_role` (  
-  `user_id` bigint(20) NOT NULL DEFAULT '0',  
-  `role_id` bigint(20) NOT NULL DEFAULT '0',  
-  PRIMARY KEY (`user_id`,`role_id`),  
-  KEY `fk_user_role_roles` (`role_id`),  
-  CONSTRAINT `fk_user_role_roles` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`),  
-  CONSTRAINT `fk_user_role_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)  
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;  
   
--- ----------------------------  
--- Records of user_role  
--- ----------------------------  
-INSERT INTO `user_role` VALUES (1, 1);  
-INSERT INTO `user_role` VALUES (1, 2);  
-INSERT INTO `user_role` VALUES (2, 2);  
-INSERT INTO `user_role` VALUES (3, 3);  
-  
--- ----------------------------  
--- Table structure for resc  
--- ----------------------------  
 
 
 -- ----------------------------  

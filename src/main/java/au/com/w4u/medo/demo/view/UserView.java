@@ -7,8 +7,11 @@ package au.com.w4u.medo.demo.view;
 
 import au.com.w4u.medo.demo.entity.User;
 import au.com.w4u.medo.demo.service.UserService;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -25,9 +28,10 @@ public class UserView implements Serializable {
 
     // Private Constants
     private List<User> users;
-    private User user = new User();//新用户实体
-    private Boolean isShow = false; 
-    private User userUp = new User();;//更新实体
+    
+    private List<User> filteredUsers;
+    
+    private User selectUser;
     
     @ManagedProperty(value = "#{userService}")
     private UserService userService;
@@ -41,44 +45,17 @@ public class UserView implements Serializable {
         users = userService.findAll();
     }
     
-    public void addUser(){
-        
-        user.setStatus(1);
-        user.setDescn("不知");
-        userService.create(user);
-        setup();//刷新
-        
+    
+    public void editUser(User user){
+        String result  = "/medo-demo/views/content/editUser.xhtml?userid="+user.getId();
+        System.out.println("result: "+result);
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(result);
+        } catch (IOException ex) {
+            Logger.getLogger(UserView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public void findUser(){
-        Integer userId = Integer.parseInt(FacesContext.getCurrentInstance().
-                getExternalContext().getRequestParameterMap().get("userId"));
-        userUp = userService.findOne(userId);
-        isShow = true;
-        
-    }
-    
-    public void updateUser(){
-        userService.update(userUp);
-        isShow = false;
-        setup();//刷新
-    }
-    
-    public void deleteUserById(){
-        Integer userId = Integer.parseInt(FacesContext.getCurrentInstance().
-                getExternalContext().getRequestParameterMap().get("userId"));
-        userService.deleteById(userId);
-        setup();//刷新
-    }
-    
-    public void closeDidlog(){
-        isShow = false;
-    }
-    
-//    public void deleteAllUser(){
-//        User user = new User();
-//        userService.delete(user);
-//    }
 
     public List<User> getUsers() {
         return users;
@@ -87,39 +64,29 @@ public class UserView implements Serializable {
     public void setUsers(List<User> users) {
         this.users = users;
     }
-    
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
 
     public UserService getUserService() {
         return userService;
     }
 
-    public User getUser() {
-        return user;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public List<User> getFilteredUsers() {
+        return filteredUsers;
     }
 
-
-    public Boolean getIsShow() {
-        return isShow;
+    public void setFilteredUsers(List<User> filteredUsers) {
+        this.filteredUsers = filteredUsers;
     }
 
-    public void setIsShow(Boolean isShow) {
-        this.isShow = isShow;
+    public User getSelectUser() {
+        return selectUser;
     }
 
-    public User getUserUp() {
-        return userUp;
+    public void setSelectUser(User selectUser) {
+        this.selectUser = selectUser;
     }
-
-    public void setUserUp(User userUp) {
-        this.userUp = userUp;
-    }
-
     
 }
